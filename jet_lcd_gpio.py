@@ -53,9 +53,18 @@ class JetLCD:
         # low nibble
         self.send_nibble(byte << 4)
 
-    def clear_display(self):
-        self.send_byte(0x01, False)
-        time.sleep(0.002) # >=0.002
+    def clear_display(self, duration = -1):
+        def threading_clear_timer(duration):
+            time.sleep(duration)
+            self.send_byte(0x01, False)
+            time.sleep(0.002) # >=0.002
+        if duration > 0:
+            t = threading.Thread(target=threading_clear_timer, daemon=True, args=(duration, ))
+            t.start()
+            return t
+        else:
+            self.send_byte(0x01, False)
+            time.sleep(0.002) # >=0.002
 
     def start_loading(self):
         def threading_loading():

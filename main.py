@@ -1,6 +1,6 @@
 # sample code
 
-from jet_lcd import JetLCD
+from jet_lcd_gpio import JetLCD
 import time
 
 RS = 7 
@@ -29,3 +29,5 @@ lcd_device.clear_display()
 
 lcd_device.lcd_write("Sample Code Done", 0)
 lcd_device.lcd_write("True", 1)
+t = lcd_device.clear_display(3) # clear display in 3s
+t.join()
